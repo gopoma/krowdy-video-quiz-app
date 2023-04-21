@@ -38,5 +38,6 @@
     "husky": "^8.0.3",
     "typescript": "^5.0.4",
     "vite": "^4.3.0"
-  }
+  },
+  "license": "Apache-2.0"
 }
