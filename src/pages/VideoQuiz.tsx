@@ -1,22 +1,12 @@
 import { type FC } from 'react'
 import { Layout } from '../layouts'
-import { Box, Typography } from '@mui/material'
-import { VideoQuestion, VideoQuizSubmitButton } from '../components'
+import { Box } from '@mui/material'
+import { VideoQuestion, VideoQuizHeader, VideoQuizSubmitButton } from '../components'
 
 export const VideoQuiz: FC = () => {
   return (
     <Layout>
-      <Box component='header'>
-        <Typography
-          sx={{
-            fontSize: '1.85em',
-            fontWeight: 'bold',
-            textAlign: 'center'
-          }}
-        >
-          Nostalgia
-        </Typography>
-      </Box>
+      <VideoQuizHeader />
 
       <Box
         component='section'
