@@ -1,19 +1,44 @@
 import { useState, type FC, useCallback, useMemo, useEffect } from 'react'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { ColorModeContext } from './'
+import { type PaletteMode } from '@mui/material'
+import { grey } from '@mui/material/colors'
+
+// eslint-disable-next-line
+const getDesignTokens = (mode: PaletteMode) => ({
+  palette: {
+    mode,
+    primary: {
+      ...(mode === 'dark'
+        ? {
+            main: '#333'
+          }
+        : {
+            main: grey[400]
+          })
+    },
+    text: {
+      ...(mode === 'dark'
+        ? {
+            primary: '#FFF'
+          }
+        : {
+            primary: '#000'
+          })
+    }
+  }
+})
 
 interface Props {
   children: JSX.Element | JSX.Element[]
 }
 
-type ColorMode = 'light' | 'dark'
-
-const initialColorMode: ColorMode = (() => {
-  return (localStorage.getItem('colorMode') ?? 'dark') as ColorMode
+const initialColorMode: PaletteMode = (() => {
+  return (localStorage.getItem('colorMode') ?? 'dark') as PaletteMode
 })()
 
 export const ColorModeProvider: FC<Props> = ({ children }) => {
-  const [colorMode, setColorMode] = useState<ColorMode>(initialColorMode)
+  const [colorMode, setColorMode] = useState<PaletteMode>(initialColorMode)
 
   useEffect(() => {
     localStorage.setItem('colorMode', colorMode)
@@ -23,7 +48,7 @@ export const ColorModeProvider: FC<Props> = ({ children }) => {
     setColorMode((prevColorMode) => (prevColorMode === 'light') ? 'dark' : 'light')
   }, [])
 
-  const theme = useMemo(() => createTheme({ palette: { mode: colorMode } }), [colorMode])
+  const theme = useMemo(() => createTheme(getDesignTokens(colorMode)), [colorMode])
 
   return (
     <ColorModeContext.Provider value={{ toggleColorMode }}>

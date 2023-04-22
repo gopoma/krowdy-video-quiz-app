@@ -12,7 +12,7 @@ export const Navbar: FC = () => {
 
   return (
     <AppBar sx={{
-      bgcolor: 'background.default',
+      bgcolor: 'primary.main',
       p: 4,
       display: 'flex',
       flexDirection: 'row',
