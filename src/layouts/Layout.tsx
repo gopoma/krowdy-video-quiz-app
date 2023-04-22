@@ -12,7 +12,12 @@ export const Layout: FC<Props> = ({ children }) => {
         <Navbar />
       </nav>
 
-      <main style={{ marginTop: '7rem' }}>
+      <main style={{
+        maxWidth: '1200px',
+        margin: 'auto',
+        padding: '1.2rem',
+        paddingTop: '7.5rem'
+      }}>
         { children }
       </main>
     </>
