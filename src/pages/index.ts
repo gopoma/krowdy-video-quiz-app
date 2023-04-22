@@ -1,1 +1,1 @@
-export * from './Mainframe'
+export * from './VideoQuiz'

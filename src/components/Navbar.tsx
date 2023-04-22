@@ -13,7 +13,8 @@ export const Navbar: FC = () => {
   return (
     <AppBar sx={{
       bgcolor: 'primary.main',
-      p: 4,
+      px: 4,
+      py: 3,
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between'
@@ -26,7 +27,7 @@ export const Navbar: FC = () => {
         }}
         variant='h1'
       >
-        Video Cuestionario
+        VideoQuizizz
       </Typography>
       <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
           {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}

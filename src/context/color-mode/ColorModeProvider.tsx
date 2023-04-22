@@ -26,6 +26,15 @@ const getDesignTokens = (mode: PaletteMode) => ({
             main: grey[200]
           })
     },
+    background: {
+      ...(mode === 'dark'
+        ? {
+            default: grey[300]
+          }
+        : {
+            default: grey[100]
+          })
+    },
     text: {
       ...(mode === 'dark'
         ? {
