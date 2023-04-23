@@ -23,7 +23,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
             main: '#666'
           }
         : {
-            main: grey[200]
+            main: grey[300]
           })
     },
     background: {
