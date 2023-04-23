@@ -3,6 +3,7 @@ import { useEffect, type FC, useState } from 'react'
 import { QuizzesService } from '../services'
 import type { Quiz } from '../interfaces'
 import { Layout } from '../layouts'
+import { QuizzesList } from '../components'
 
 const quizzesServ = new QuizzesService()
 
@@ -18,7 +19,8 @@ export const VideoQuizzesPage: FC = () => {
   return (
     <Layout>
       <h2>VideoQuizzesPage works!</h2>
-      <>{(quizzes !== undefined) && (<span>quizzes</span>)}</>
+
+      <>{(quizzes !== undefined) && (<QuizzesList quizzes={quizzes} />)}</>
     </Layout>
   )
 }

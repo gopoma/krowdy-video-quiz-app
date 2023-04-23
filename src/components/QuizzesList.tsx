@@ -1,6 +1,11 @@
 import { type FC } from 'react'
+import type { Quiz } from '../interfaces'
 
-export const QuizzesList: FC = () => {
+interface Props {
+  quizzes: Quiz[]
+}
+
+export const QuizzesList: FC<Props> = ({ quizzes }) => {
   return (
     <>
       <h2>QuizzesList works!</h2>
