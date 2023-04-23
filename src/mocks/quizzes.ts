@@ -1,5 +1,5 @@
 import type { Quiz } from '../interfaces'
-import { users } from './'
+import { users } from './users'
 
 export const quizzes: Quiz[] = [
   {
