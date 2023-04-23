@@ -1,14 +1,17 @@
 import { type FC } from 'react'
 import { Box, Typography } from '@mui/material'
 import type { Quiz } from '../interfaces'
+import { useNavigate } from 'react-router-dom'
 
 interface Props {
   quiz: Quiz
 }
 
 export const QuizCard: FC<Props> = ({ quiz }) => {
+  const navigate = useNavigate()
+
   const _handleClick = (): void => {
-    console.log(quiz.id)
+    navigate(`/quizzes/${quiz.id}`)
   }
 
   return (
