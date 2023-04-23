@@ -1,0 +1,25 @@
+GET  /api/quizzes             |
+GET  /api/quizzes/:id         |
+POST /api/quizzes             | // add a quiz with related questions
+GET  /api/questions/:id       |
+GET  /api/quizzes/:id/answers |
+POST /api/quizzes/:id/answers |
+
+quizzes = [
+  {
+    id: 1,
+    name: '',
+    questions: [
+      {
+        id: 1,
+        order: 1,
+        statement: 'Are you OK?',
+      },
+      {
+        id: 2,
+        order: 2,
+        statement: 'How old are you?'
+      }
+    ]
+  },
+]
