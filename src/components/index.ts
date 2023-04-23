@@ -1,5 +1,6 @@
 export * from './Loading'
 export * from './Navbar'
+export * from './QuizCard'
 export * from './QuizzesList'
 export * from './VideoQuestion'
 export * from './VideoQuizHeader'
