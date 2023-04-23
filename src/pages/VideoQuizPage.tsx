@@ -1,23 +1,41 @@
-import { useMemo, type FC } from 'react'
+import { type FC, useState, useEffect } from 'react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { Box, IconButton, Typography } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
-import { getQuizById } from '../helpers'
+import { QuizzesService } from '../services'
+import type { Quiz } from '../interfaces'
 import { Layout } from '../layouts'
 import {
+  Loading,
   VideoQuestion,
   VideoQuizSubmitButton
 } from '../components'
 
+const quizzesServ = new QuizzesService()
+
 export const VideoQuizPage: FC = () => {
   const { id } = useParams()
-  const quiz = useMemo(() => getQuizById(Number.parseInt(id as string)), [])
+  const [loading, setLoading] = useState<boolean>(true)
+  const [quiz, setQuiz] = useState<Quiz | null>(null)
+
+  useEffect(() => {
+    quizzesServ.getById(Number.parseInt(id as string))
+      .then((quiz) => {
+        setQuiz(quiz)
+        setLoading(false)
+      })
+      .catch(console.log)
+  }, [])
 
   const navigate = useNavigate()
 
   const onNavigateBack = (): void => {
     navigate('/quizzes')
+  }
+
+  if (loading) {
+    return <Loading />
   }
 
   if (quiz === null) {

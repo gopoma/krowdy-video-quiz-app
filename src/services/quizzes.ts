@@ -1,5 +1,5 @@
 import type { Quiz } from '../interfaces'
-import { sleep } from '../helpers'
+import { sleep, getQuizById } from '../helpers'
 import { quizzes } from '../mocks'
 
 export class QuizzesService {
@@ -7,5 +7,11 @@ export class QuizzesService {
     await sleep(750)
 
     return await Promise.resolve(quizzes)
+  }
+
+  async getById (id: number): Promise<Quiz | null> {
+    await sleep(750)
+
+    return await Promise.resolve(getQuizById(id))
   }
 }
