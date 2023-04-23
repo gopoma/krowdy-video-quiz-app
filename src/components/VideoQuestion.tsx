@@ -9,6 +9,7 @@ export const VideoQuestion: FC = () => {
       sx={{
         width: '100%',
         maxWidth: '280px',
+        margin: 'auto',
         borderRadius: 1,
         display: 'flex',
         flexDirection: 'column',
