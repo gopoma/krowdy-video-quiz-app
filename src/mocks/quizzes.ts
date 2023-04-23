@@ -6,7 +6,7 @@ export const quizzes: Quiz[] = [
     id: 1,
     name: 'Programming Languages',
     image: 'https://spectrum.ieee.org/media-library/an-illustration-with-people-typing-on-laptop-surrounded-by-floating-windows.jpg?id=31173894&width=1200&height=600&coordinates=0%2C375%2C0%2C375',
-    publisher: users[1],
+    publisher: users[0],
     questions: [
       {
         id: 1,
@@ -39,13 +39,13 @@ export const quizzes: Quiz[] = [
     id: 2,
     name: 'Akashic Records',
     image: 'https://i.ytimg.com/vi/U7w79Kl7YXI/maxresdefault.jpg',
-    publisher: users[2],
+    publisher: users[1],
     questions: []
   },
   {
     id: 3,
     name: 'Eleos',
-    publisher: users[1],
+    publisher: users[0],
     image: 'https://i.ytimg.com/vi/JxbZfDMFe9U/maxresdefault.jpg',
     questions: []
   }
