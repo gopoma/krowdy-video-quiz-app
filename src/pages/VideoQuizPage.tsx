@@ -34,3 +34,5 @@ export const VideoQuizPage: FC = () => {
     </Layout>
   )
 }
+
+export default VideoQuizPage

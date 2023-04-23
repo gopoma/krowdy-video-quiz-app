@@ -1,3 +1,4 @@
+export * from './Loading'
 export * from './Navbar'
 export * from './VideoQuestion'
 export * from './VideoQuizHeader'

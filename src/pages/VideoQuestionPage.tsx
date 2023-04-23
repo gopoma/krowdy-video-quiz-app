@@ -7,3 +7,5 @@ export const VideoQuestionPage: FC = () => {
     </>
   )
 }
+
+export default VideoQuestionPage

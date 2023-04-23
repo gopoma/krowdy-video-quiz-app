@@ -7,3 +7,5 @@ export const VideoQuizzesPage: FC = () => {
     </>
   )
 }
+
+export default VideoQuizzesPage
