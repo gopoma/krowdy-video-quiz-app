@@ -1,10 +1,10 @@
 import { ColorModeProvider } from './context'
-import { VideoQuiz } from './pages'
+import { VideoQuizPage } from './pages'
 
 export default function App (): JSX.Element {
   return (
     <ColorModeProvider>
-      <VideoQuiz />
+      <VideoQuizPage />
     </ColorModeProvider>
   )
 }

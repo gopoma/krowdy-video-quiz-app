@@ -3,7 +3,7 @@ import { Layout } from '../layouts'
 import { Box } from '@mui/material'
 import { VideoQuestion, VideoQuizHeader, VideoQuizSubmitButton } from '../components'
 
-export const VideoQuiz: FC = () => {
+export const VideoQuizPage: FC = () => {
   return (
     <Layout>
       <VideoQuizHeader />
