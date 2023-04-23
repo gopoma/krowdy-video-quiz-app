@@ -14,24 +14,19 @@ export const quizzes: Quiz[] = [
         statement: 'How well was your first experiencie with programming languages?'
       },
       {
-        id: 2,
-        order: 3,
-        statement: 'Have you ever programmed in C/C++?'
-      },
-      {
         id: 3,
         order: 2,
         statement: 'What are your favorite programming languages?'
       },
       {
-        id: 4,
-        order: 5,
-        statement: 'Do you beleive that with 10\'000 hours you will be a master in something?'
+        id: 2,
+        order: 3,
+        statement: 'Have you ever programmed in C/C++?'
       },
       {
-        id: 5,
+        id: 4,
         order: 4,
-        statement: 'How do you feel about stress?'
+        statement: 'Do you beleive that with 10\'000 hours you will be a master in something?'
       }
     ]
   },
@@ -47,6 +42,12 @@ export const quizzes: Quiz[] = [
     name: 'Eleos',
     publisher: users[0],
     image: 'https://i.ytimg.com/vi/JxbZfDMFe9U/maxresdefault.jpg',
-    questions: []
+    questions: [
+      {
+        id: 6,
+        order: 1,
+        statement: 'Have you ever programmed in JavaScript/TypeScript?'
+      }
+    ]
   }
 ]

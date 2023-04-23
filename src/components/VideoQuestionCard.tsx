@@ -1,8 +1,13 @@
 import { type FC } from 'react'
 import { Box, IconButton, Typography } from '@mui/material'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
+import type { Question } from '../interfaces'
 
-export const VideoQuestion: FC = () => {
+interface Props {
+  question: Question
+}
+
+export const VideoQuestionCard: FC<Props> = ({ question }) => {
   return (
     <Box
       component='article'
@@ -50,7 +55,7 @@ export const VideoQuestion: FC = () => {
         <Typography
           sx={{ fontSize: '1.25em' }}
         >
-          ¿Cuál fue tu videojuego favorito durante tu infancia?
+          { question.statement }
         </Typography>
       </Box>
     </Box>

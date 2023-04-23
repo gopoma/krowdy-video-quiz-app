@@ -8,7 +8,7 @@ import type { Quiz } from '../interfaces'
 import { Layout } from '../layouts'
 import {
   Loading,
-  VideoQuestion,
+  VideoQuestionsList,
   VideoQuizSubmitButton
 } from '../components'
 
@@ -18,6 +18,7 @@ export const VideoQuizPage: FC = () => {
   const { id } = useParams()
   const [loading, setLoading] = useState<boolean>(true)
   const [quiz, setQuiz] = useState<Quiz | null>(null)
+  console.log(quiz)
 
   useEffect(() => {
     quizzesServ.getById(Number.parseInt(id as string))
@@ -76,19 +77,20 @@ export const VideoQuizPage: FC = () => {
         </IconButton>
       </Box>
 
-      <Box
-        component='section'
-        sx={{
-          display: 'grid',
-          gap: 2,
-          gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))'
-        }}
-      >
-        <VideoQuestion />
-        <VideoQuestion />
-        <VideoQuestion />
-        <VideoQuestion />
-      </Box>
+      {
+        (quiz.questions.length === 0)
+          ? <Typography
+            variant='h3'
+            sx={{
+              p: 2,
+              fontSize: '1.45em',
+              textAlign: 'center'
+            }}
+          >
+            There are no questions at the moment
+          </Typography>
+          : <VideoQuestionsList questions={ quiz.questions } />
+      }
 
       <Box
         component='section'
@@ -97,7 +99,7 @@ export const VideoQuizPage: FC = () => {
           justifyContent: 'flex-end'
         }}
       >
-        <VideoQuizSubmitButton />
+        <VideoQuizSubmitButton disabled={ quiz.questions.length === 0 } />
       </Box>
     </Layout>
   )
