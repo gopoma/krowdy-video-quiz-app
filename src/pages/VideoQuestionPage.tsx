@@ -17,7 +17,7 @@ export const VideoQuestionPage: FC = () => {
   const navigate = useNavigate()
 
   // WebRTC implementation
-  const [isRecording, setIsRecording] = useState<boolean>(false)
+  const [isRecording, setIsRecording] = useState<boolean | null>(null)
   const gumVideoRef = useRef<HTMLVideoElement>(null)
   const mediaRecorder = useRef<MediaRecorder | null>(null)
 
@@ -58,7 +58,7 @@ export const VideoQuestionPage: FC = () => {
   }, [])
 
   const _handleToggleIsRecording = (): void => {
-    setIsRecording((prevIsRecording) => !prevIsRecording)
+    setIsRecording((prevIsRecording) => !(prevIsRecording as boolean))
   }
 
   function getSupportedMimeTypes (): string[] {
@@ -172,29 +172,16 @@ export const VideoQuestionPage: FC = () => {
             autoPlay
             muted
             style={{
+              display: (isRecording === null)
+                ? ''
+                : (!(isRecording as boolean)) ? 'none' : '',
               width: '100%',
               height: '100%'
             }}
           ></video>
-
           {
-            (isRecording)
+            (isRecording as boolean)
               ? <IconButton
-                  onClick={ _handleStartRecording }
-                  sx={{
-                    position: 'absolute',
-                    bottom: '0.85rem',
-                    left: '0.85rem',
-                    bgcolor: 'secondary.main',
-                    ':hover': {
-                      backgroundColor: 'red',
-                      color: '#FFF'
-                    }
-                  }}
-                >
-                  <PlayArrowIcon />
-                </IconButton>
-              : <IconButton
                   onClick={ _handleStopRecording }
                   sx={{
                     position: 'absolute',
@@ -208,6 +195,21 @@ export const VideoQuestionPage: FC = () => {
                   }}
                 >
                   <StopIcon />
+                </IconButton>
+              : <IconButton
+                  onClick={ _handleStartRecording }
+                  sx={{
+                    position: 'absolute',
+                    bottom: '0.85rem',
+                    left: '0.85rem',
+                    bgcolor: 'secondary.main',
+                    ':hover': {
+                      backgroundColor: 'red',
+                      color: '#FFF'
+                    }
+                  }}
+                >
+                  <PlayArrowIcon />
                 </IconButton>
           }
         </Box>
