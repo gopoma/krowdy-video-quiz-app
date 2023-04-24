@@ -11,6 +11,7 @@ import {
   VideoQuestionsList,
   VideoQuizSubmitButton
 } from '../components'
+import { useQuizzes } from '../hooks'
 
 const quizzesServ = new QuizzesService()
 
@@ -18,13 +19,14 @@ export const VideoQuizPage: FC = () => {
   const { id } = useParams()
   const [loading, setLoading] = useState<boolean>(true)
   const [quiz, setQuiz] = useState<Quiz | null>(null)
-  console.log(quiz)
+  const { setActiveQuiz } = useQuizzes()
 
   useEffect(() => {
     quizzesServ.getById(Number.parseInt(id as string))
       .then((quiz) => {
         setQuiz(quiz)
         setLoading(false)
+        setActiveQuiz(quiz as Quiz)
       })
       .catch(console.log)
   }, [])

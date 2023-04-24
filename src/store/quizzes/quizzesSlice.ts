@@ -22,7 +22,10 @@ export const quizzesSlice = createSlice({
   reducers: {
     onSetActiveQuiz: (state, { payload }: PayloadAction<Quiz>) => {
       state.activeQuiz = payload
-      state.activeAnswer = []
+
+      if (state.activeQuiz?.id !== payload.id) {
+        state.activeAnswer = []
+      }
     }
   }
 })

@@ -1,4 +1,5 @@
 import { type FC } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Box, IconButton, Typography } from '@mui/material'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import type { Question } from '../interfaces'
@@ -8,6 +9,12 @@ interface Props {
 }
 
 export const VideoQuestionCard: FC<Props> = ({ question }) => {
+  const navigate = useNavigate()
+
+  const _handleClick = (): void => {
+    navigate(`/quizzes/current/questions?order=${question.order}`)
+  }
+
   return (
     <Box
       component='article'
@@ -32,6 +39,7 @@ export const VideoQuestionCard: FC<Props> = ({ question }) => {
         }}
       >
         <IconButton
+          onClick={ _handleClick }
           sx={{
             position: 'absolute',
             bottom: '0.85rem',

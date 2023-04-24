@@ -12,6 +12,7 @@ export const useQuizzes = () => {
   }
 
   return {
+    ...activeQuiz,
     activeQuiz,
     setActiveQuiz
   }
