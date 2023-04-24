@@ -1,9 +1,10 @@
-import { useMemo, type FC, useRef, useLayoutEffect } from 'react'
+import { useMemo, type FC, useRef, useLayoutEffect, useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import queryString from 'query-string'
 import { Box, Button, IconButton, Typography } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
+import StopIcon from '@mui/icons-material/Stop'
 
 import { useQuizzes } from '../hooks'
 import type { Question } from '../interfaces'
@@ -16,6 +17,7 @@ export const VideoQuestionPage: FC = () => {
   const navigate = useNavigate()
 
   // WebRTC implementation
+  const [isRecording, setIsRecording] = useState<boolean>(false)
   const gumVideoRef = useRef<HTMLVideoElement>(null)
 
   useLayoutEffect(() => {
@@ -69,8 +71,18 @@ export const VideoQuestionPage: FC = () => {
     main()
   }, [])
 
+  const _handleToggleIsRecording = (): void => {
+    setIsRecording((prevIsRecording) => !prevIsRecording)
+  }
+
   const _handleStartRecording = (): void => {
     console.log('recording...')
+    _handleToggleIsRecording()
+  }
+
+  const _handleStopRecording = (): void => {
+    console.log('stop recording...')
+    _handleToggleIsRecording()
   }
   // WebRTC implementation
 
@@ -133,21 +145,39 @@ export const VideoQuestionPage: FC = () => {
             }}
           ></video>
 
-          <IconButton
-            onClick={ _handleStartRecording }
-            sx={{
-              position: 'absolute',
-              bottom: '0.85rem',
-              left: '0.85rem',
-              bgcolor: 'secondary.main',
-              ':hover': {
-                backgroundColor: 'red',
-                color: '#FFF'
-              }
-            }}
-          >
-            <PlayArrowIcon />
-          </IconButton>
+          {
+            (isRecording)
+              ? <IconButton
+                  onClick={ _handleStartRecording }
+                  sx={{
+                    position: 'absolute',
+                    bottom: '0.85rem',
+                    left: '0.85rem',
+                    bgcolor: 'secondary.main',
+                    ':hover': {
+                      backgroundColor: 'red',
+                      color: '#FFF'
+                    }
+                  }}
+                >
+                  <PlayArrowIcon />
+                </IconButton>
+              : <IconButton
+                  onClick={ _handleStopRecording }
+                  sx={{
+                    position: 'absolute',
+                    bottom: '0.85rem',
+                    left: '0.85rem',
+                    bgcolor: 'secondary.main',
+                    ':hover': {
+                      backgroundColor: 'red',
+                      color: '#FFF'
+                    }
+                  }}
+                >
+                  <StopIcon />
+                </IconButton>
+          }
         </Box>
 
         <Box
