@@ -1,8 +1,9 @@
 import { useMemo, type FC, useRef, useLayoutEffect } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import queryString from 'query-string'
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Button, IconButton, Typography } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 
 import { useQuizzes } from '../hooks'
 import type { Question } from '../interfaces'
@@ -66,6 +67,10 @@ export const VideoQuestionPage: FC = () => {
     // eslint-disable-next-line
     main()
   }, [])
+
+  const _handleStartRecording = (): void => {
+    console.log('recording...')
+  }
   // WebRTC implementation
 
   const onNavigateBack = (): void => {
@@ -110,6 +115,7 @@ export const VideoQuestionPage: FC = () => {
         <Box
           component='section'
           sx={{
+            position: 'relative',
             height: '85%',
             borderRadius: '8px 8px 0 0',
             backgroundColor: '#000'
@@ -125,6 +131,22 @@ export const VideoQuestionPage: FC = () => {
               height: '100%'
             }}
           ></video>
+
+          <IconButton
+            onClick={ _handleStartRecording }
+            sx={{
+              position: 'absolute',
+              bottom: '0.85rem',
+              left: '0.85rem',
+              bgcolor: 'secondary.main',
+              ':hover': {
+                backgroundColor: 'red',
+                color: '#FFF'
+              }
+            }}
+          >
+            <PlayArrowIcon />
+          </IconButton>
         </Box>
 
         <Box
