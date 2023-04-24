@@ -61,6 +61,7 @@ export const VideoQuestionPage: FC = () => {
     function handleSuccess (stream: MediaStream): void {
       if (gumVideoRef.current === null) return
 
+      window.stream = stream
       gumVideoRef.current.srcObject = stream
     }
 
