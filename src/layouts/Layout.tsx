@@ -17,7 +17,7 @@ export const Layout: FC<Props> = ({ children }) => {
       </nav>
 
       <main style={{
-        maxWidth: '1200px',
+        maxWidth: '1000px',
         margin: 'auto',
         padding: '1.2rem',
         paddingTop: '7rem',
