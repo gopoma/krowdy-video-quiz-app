@@ -12,7 +12,7 @@ interface QuizzesState {
 }
 
 const initialState: QuizzesState = {
-  activeQuiz: null,
+  activeQuiz: JSON.parse(localStorage.getItem('active-quiz') as string) ?? null,
   activeAnswer: []
 }
 
