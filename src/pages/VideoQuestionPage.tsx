@@ -21,24 +21,10 @@ export const VideoQuestionPage: FC = () => {
   const gumVideoRef = useRef<HTMLVideoElement>(null)
 
   useLayoutEffect(() => {
-    interface Constraints {
-      audio: AudioConstraints
-      video: VideoConstraints
-    }
-
-    interface AudioConstraints {
-      echoCancellation: { exact: boolean }
-    }
-
-    interface VideoConstraints {
-      width: number
-      height: number
-    }
-
     async function main (): Promise<void> {
       const hasEchoCancellation = false
 
-      const constraints: Constraints = {
+      const constraints: MediaStreamConstraints = {
         audio: {
           echoCancellation: { exact: hasEchoCancellation }
         },
@@ -50,8 +36,7 @@ export const VideoQuestionPage: FC = () => {
       await init(constraints)
     }
 
-    // eslint-disable-next-line
-    async function init (constraints: Constraints): Promise<void> {
+    async function init (constraints: MediaStreamConstraints): Promise<void> {
       try {
         const stream: MediaStream = await navigator.mediaDevices.getUserMedia(constraints)
         handleSuccess(stream)
