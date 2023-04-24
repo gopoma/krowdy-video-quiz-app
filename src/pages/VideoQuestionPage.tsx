@@ -16,7 +16,6 @@ export const VideoQuestionPage: FC = () => {
 
   // WebRTC implementation
   const gumVideoRef = useRef<HTMLVideoElement>(null)
-  const recordedVideoRef = useRef<HTMLVideoElement>(null)
 
   useLayoutEffect(() => {
     interface Constraints {
@@ -80,7 +79,7 @@ export const VideoQuestionPage: FC = () => {
   }
 
   return (
-    <Layout>
+    <Layout style={{ maxWidth: '800px' }}>
       <Box component='section'>
         <Button
           variant='contained'
@@ -116,8 +115,16 @@ export const VideoQuestionPage: FC = () => {
             backgroundColor: '#000'
           }}
         >
-          <video ref={ gumVideoRef } playsInline autoPlay muted></video>
-          <video ref={ recordedVideoRef } playsInline></video>
+          <video
+            ref={ gumVideoRef }
+            playsInline
+            autoPlay
+            muted
+            style={{
+              width: '100%',
+              height: '100%'
+            }}
+          ></video>
         </Box>
 
         <Box
