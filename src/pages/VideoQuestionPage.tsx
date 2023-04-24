@@ -19,6 +19,7 @@ export const VideoQuestionPage: FC = () => {
   // WebRTC implementation
   const [isRecording, setIsRecording] = useState<boolean>(false)
   const gumVideoRef = useRef<HTMLVideoElement>(null)
+  const mediaRecorder = useRef<MediaRecorder | null>(null)
 
   useLayoutEffect(() => {
     async function main (): Promise<void> {
@@ -60,13 +61,59 @@ export const VideoQuestionPage: FC = () => {
     setIsRecording((prevIsRecording) => !prevIsRecording)
   }
 
+  function getSupportedMimeTypes (): string[] {
+    const possibleTypes = [
+      'video/webm;codecs=av1,opus',
+      'video/webm;codecs=vp9,opus',
+      'video/webm;codecs=vp8,opus',
+      'video/webm;codecs=h264,opus',
+      'video/mp4;codecs=h264,aac'
+    ]
+
+    return possibleTypes.filter(mimeType => {
+      return MediaRecorder.isTypeSupported(mimeType)
+    })
+  }
+
+  let recordedBlobs: Blob[]
+
   const _handleStartRecording = (): void => {
-    console.log('recording...')
     _handleToggleIsRecording()
+
+    recordedBlobs = []
+    const mimeType = getSupportedMimeTypes()[0]
+    const options: MediaRecorderOptions = { mimeType }
+
+    try {
+      mediaRecorder.current = new MediaRecorder(window.stream, options)
+    } catch (error) {
+      console.error('Exception while creating MediaRecorder:', error)
+      return
+    }
+
+    console.log('Created MediaRecorder', mediaRecorder, 'with options', options)
+    mediaRecorder.current.onstop = (event) => {
+      console.log('Recorder stopped: ', event)
+      console.log('Recorded Blobs: ', recordedBlobs)
+    }
+    mediaRecorder.current.ondataavailable = handleDataAvailable
+    mediaRecorder.current.start()
+    console.log('MediaRecorder started', mediaRecorder)
+  }
+
+  function handleDataAvailable (event: BlobEvent): void {
+    console.log('handleDataAvailable', event)
+    // eslint-disable-next-line
+    if (event.data && event.data.size > 0) {
+      recordedBlobs.push(event.data)
+    }
   }
 
   const _handleStopRecording = (): void => {
-    console.log('stop recording...')
+    mediaRecorder.current?.stop()
+
+    console.log(recordedBlobs)
+
     _handleToggleIsRecording()
   }
   // WebRTC implementation
