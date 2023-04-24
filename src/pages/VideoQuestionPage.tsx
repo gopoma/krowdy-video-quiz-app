@@ -170,7 +170,7 @@ export const VideoQuestionPage: FC = () => {
                     left: '0.85rem',
                     bgcolor: 'secondary.main',
                     ':hover': {
-                      backgroundColor: 'red',
+                      backgroundColor: 'darkblue',
                       color: '#FFF'
                     }
                   }}
