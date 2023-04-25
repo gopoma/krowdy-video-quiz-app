@@ -51,7 +51,6 @@ export const VideoQuestionPage: FC = () => {
 
     return () => {
       clearInterval(id)
-      console.log('unmount')
     }
   }, [])
 
@@ -172,7 +171,6 @@ export const VideoQuestionPage: FC = () => {
   const [question, setQuestion] = useState<Question | null>(initialQuestion)
 
   useEffect(() => {
-    console.log(location.search)
     setQuestion(() => (questions as Question[]).find((question) => question.order === Number.parseInt(order as string)) ?? null)
   }, [location.search])
 
