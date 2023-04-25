@@ -1,4 +1,4 @@
-import { useMemo, type FC, useRef, useLayoutEffect, useState } from 'react'
+import { useMemo, type FC, useRef, useLayoutEffect, useState, useEffect } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import queryString from 'query-string'
 import { Box, Button, IconButton, Typography } from '@mui/material'
@@ -10,6 +10,7 @@ import ReplayIcon from '@mui/icons-material/Replay'
 import { useQuizzes } from '../hooks'
 import type { Question } from '../interfaces'
 import { Layout } from '../layouts'
+import { VideoCounter } from '../components'
 
 export const VideoQuestionPage: FC = () => {
   const location = useLocation()
@@ -22,6 +23,27 @@ export const VideoQuestionPage: FC = () => {
   const gumVideoRef = useRef<HTMLVideoElement>(null)
   const recordedVideoRef = useRef<HTMLVideoElement>(null)
   const mediaRecorder = useRef<MediaRecorder | null>(null)
+
+  const [isCounting, setIsCounting] = useState<boolean>(false)
+  const [counter, setCounter] = useState<number>(0)
+
+  const requestCounting = (): void => {
+    setIsCounting((currentIsCounting) => {
+      if (currentIsCounting) {
+        setCounter((counter) => counter + 1)
+      }
+
+      return currentIsCounting
+    })
+  }
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      requestCounting()
+    }, 1000)
+
+    return () => { clearInterval(id) }
+  }, [])
 
   useLayoutEffect(() => {
     async function main (): Promise<void> {
@@ -93,11 +115,7 @@ export const VideoQuestionPage: FC = () => {
       return
     }
 
-    console.log('Created MediaRecorder', mediaRecorder, 'with options', options)
-    mediaRecorder.current.onstop = async (event) => {
-      console.log('Recorder stopped: ', event)
-      console.log('Recorded Blobs: ', recordedBlobs)
-
+    mediaRecorder.current.onstop = async () => {
       const mimeType = getSupportedMimeTypes()[0]
       const superBuffer = new Blob(recordedBlobs, { type: mimeType })
 
@@ -109,11 +127,11 @@ export const VideoQuestionPage: FC = () => {
     }
     mediaRecorder.current.ondataavailable = handleDataAvailable
     mediaRecorder.current.start()
-    console.log('MediaRecorder started', mediaRecorder)
+
+    setIsCounting(true)
   }
 
   function handleDataAvailable (event: BlobEvent): void {
-    console.log('handleDataAvailable', event)
     // eslint-disable-next-line
     if (event.data && event.data.size > 0) {
       recordedBlobs.push(event.data)
@@ -122,6 +140,9 @@ export const VideoQuestionPage: FC = () => {
 
   const _handleStopRecording = (): void => {
     _handleToggleIsRecording()
+
+    setIsCounting(false)
+    setCounter(0)
 
     mediaRecorder.current?.stop()
   }
@@ -136,6 +157,8 @@ export const VideoQuestionPage: FC = () => {
   if (question === null) {
     return <Navigate to={ `/quizzes/${idQuiz as number}` } />
   }
+
+  console.log(isCounting)
 
   return (
     <Layout style={{ maxWidth: '800px' }}>
@@ -237,6 +260,8 @@ export const VideoQuestionPage: FC = () => {
                   }
                 </IconButton>
           }
+
+          <VideoCounter counter={ counter } />
         </Box>
 
         <Box
