@@ -19,6 +19,7 @@ export const VideoQuestionPage: FC = () => {
   // WebRTC implementation
   const [isRecording, setIsRecording] = useState<boolean | null>(null)
   const gumVideoRef = useRef<HTMLVideoElement>(null)
+  const recordedVideoRef = useRef<HTMLVideoElement>(null)
   const mediaRecorder = useRef<MediaRecorder | null>(null)
 
   useLayoutEffect(() => {
@@ -92,9 +93,18 @@ export const VideoQuestionPage: FC = () => {
     }
 
     console.log('Created MediaRecorder', mediaRecorder, 'with options', options)
-    mediaRecorder.current.onstop = (event) => {
+    mediaRecorder.current.onstop = async (event) => {
       console.log('Recorder stopped: ', event)
       console.log('Recorded Blobs: ', recordedBlobs)
+
+      const mimeType = getSupportedMimeTypes()[0]
+      const superBuffer = new Blob(recordedBlobs, { type: mimeType })
+
+      if (recordedVideoRef.current === null) return
+
+      recordedVideoRef.current.srcObject = null
+      recordedVideoRef.current.src = window.URL.createObjectURL(superBuffer)
+      recordedVideoRef.current.controls = true
     }
     mediaRecorder.current.ondataavailable = handleDataAvailable
     mediaRecorder.current.start()
@@ -110,11 +120,9 @@ export const VideoQuestionPage: FC = () => {
   }
 
   const _handleStopRecording = (): void => {
-    mediaRecorder.current?.stop()
-
-    console.log(recordedBlobs)
-
     _handleToggleIsRecording()
+
+    mediaRecorder.current?.stop()
   }
   // WebRTC implementation
 
@@ -174,7 +182,7 @@ export const VideoQuestionPage: FC = () => {
             style={{
               display: (isRecording === null)
                 ? ''
-                : (!(isRecording as boolean)) ? 'none' : '',
+                : (!isRecording) ? 'none' : '',
               width: '100%',
               height: '100%'
             }}
@@ -258,6 +266,11 @@ export const VideoQuestionPage: FC = () => {
           Siguiente
         </Button>
       </Box>
+
+      <video
+        ref={ recordedVideoRef }
+        playsInline
+      ></video>
     </Layout>
   )
 }
