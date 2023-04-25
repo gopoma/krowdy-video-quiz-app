@@ -273,7 +273,7 @@ export const VideoQuestionPage: FC = () => {
                 </IconButton>
           }
 
-          <VideoCounter counter={ counter } />
+          { (isCounting) ? <VideoCounter counter={ counter } /> : <></> }
         </Box>
 
         <Box
