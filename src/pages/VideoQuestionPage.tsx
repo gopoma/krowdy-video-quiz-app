@@ -5,6 +5,7 @@ import { Box, Button, IconButton, Typography } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import StopIcon from '@mui/icons-material/Stop'
+import ReplayIcon from '@mui/icons-material/Replay'
 
 import { useQuizzes } from '../hooks'
 import type { Question } from '../interfaces'
@@ -187,13 +188,26 @@ export const VideoQuestionPage: FC = () => {
               height: '100%'
             }}
           ></video>
+
+          <video
+            ref={ recordedVideoRef }
+            playsInline
+            style={{
+              display: (isRecording === null)
+                ? 'none'
+                : (isRecording) ? 'none' : '',
+              width: '100%',
+              height: '100%'
+            }}
+          ></video>
+
           {
             (isRecording as boolean)
               ? <IconButton
                   onClick={ _handleStopRecording }
                   sx={{
                     position: 'absolute',
-                    bottom: '0.85rem',
+                    top: '0.85rem',
                     left: '0.85rem',
                     bgcolor: 'secondary.main',
                     ':hover': {
@@ -208,7 +222,7 @@ export const VideoQuestionPage: FC = () => {
                   onClick={ _handleStartRecording }
                   sx={{
                     position: 'absolute',
-                    bottom: '0.85rem',
+                    top: '0.85rem',
                     left: '0.85rem',
                     bgcolor: 'secondary.main',
                     ':hover': {
@@ -217,7 +231,10 @@ export const VideoQuestionPage: FC = () => {
                     }
                   }}
                 >
-                  <PlayArrowIcon />
+                  { (isRecording === null)
+                    ? <PlayArrowIcon />
+                    : <ReplayIcon />
+                  }
                 </IconButton>
           }
         </Box>
@@ -266,11 +283,6 @@ export const VideoQuestionPage: FC = () => {
           Siguiente
         </Button>
       </Box>
-
-      <video
-        ref={ recordedVideoRef }
-        playsInline
-      ></video>
     </Layout>
   )
 }
