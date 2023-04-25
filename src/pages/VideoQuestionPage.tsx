@@ -1,4 +1,4 @@
-import { useMemo, type FC, useRef, useLayoutEffect, useState, useEffect } from 'react'
+import { type FC, useRef, useLayoutEffect, useState, useEffect } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import queryString from 'query-string'
 import { Box, Button, IconButton, Typography } from '@mui/material'
@@ -16,7 +16,7 @@ import { VIDEO_QUESTION_TIME_LIMIT } from '../constants'
 export const VideoQuestionPage: FC = () => {
   const location = useLocation()
   const { order = '' } = queryString.parse(location.search)
-  const { id: idQuiz, questions } = useQuizzes()
+  const { id: idQuiz, questions, minPosition, maxPosition } = useQuizzes()
   const navigate = useNavigate()
 
   // WebRTC implementation
@@ -49,7 +49,10 @@ export const VideoQuestionPage: FC = () => {
       requestCounting()
     }, 1000)
 
-    return () => { clearInterval(id) }
+    return () => {
+      clearInterval(id)
+      console.log('unmount')
+    }
   }, [])
 
   useLayoutEffect(() => {
@@ -165,10 +168,24 @@ export const VideoQuestionPage: FC = () => {
     navigate(`/quizzes/${idQuiz as number}`)
   }
 
-  const question = useMemo(() => (questions as Question[]).find((question) => question.order === Number.parseInt(order as string)) ?? null, [])
+  const initialQuestion = (questions as Question[]).find((question) => question.order === Number.parseInt(order as string)) ?? null
+  const [question, setQuestion] = useState<Question | null>(initialQuestion)
+
+  useEffect(() => {
+    console.log(location.search)
+    setQuestion(() => (questions as Question[]).find((question) => question.order === Number.parseInt(order as string)) ?? null)
+  }, [location.search])
 
   if (question === null) {
     return <Navigate to={ `/quizzes/${idQuiz as number}` } />
+  }
+
+  const _handleGoNext = (): void => {
+    navigate(`/quizzes/current/questions?order=${question.order + 1}`)
+  }
+
+  const _handleGoBack = (): void => {
+    navigate(`/quizzes/current/questions?order=${question.order - 1}`)
   }
 
   return (
@@ -304,20 +321,12 @@ export const VideoQuestionPage: FC = () => {
         component='section'
         sx={{
           display: 'flex',
-          justifyContent: 'space-between',
+          justifyContent: (minPosition === question.order) ? 'flex-end' : (maxPosition === question.order) ? 'flex-start' : 'space-between',
           alignItems: 'center'
         }}
       >
-        <Button
-          variant='contained'
-        >
-          Atrás
-        </Button>
-        <Button
-          variant='contained'
-        >
-          Siguiente
-        </Button>
+        { (minPosition !== question.order) ? <Button onClick={ _handleGoBack } variant='contained'>Atrás</Button> : <></> }
+        { (maxPosition !== question.order) ? <Button onClick={ _handleGoNext } variant='contained'>Siguiente</Button> : <></> }
       </Box>
     </Layout>
   )
