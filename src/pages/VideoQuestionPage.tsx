@@ -25,7 +25,6 @@ export const VideoQuestionPage: FC = () => {
   const recordedVideoRef = useRef<HTMLVideoElement>(null)
   const mediaRecorder = useRef<MediaRecorder | null>(null)
 
-  // eslint-disable-next-line
   const [isCounting, setIsCounting] = useState<boolean>(false)
   const [counter, setCounter] = useState<number>(0)
 

@@ -20,6 +20,7 @@ export const VideoCounter: FC<Props> = ({ counter }) => {
         position: 'absolute',
         top: '0.85rem',
         right: '0.85rem',
+        borderRadius: '8px 8px 8px 8px',
         bgcolor: 'primary.main'
       }}
     >
