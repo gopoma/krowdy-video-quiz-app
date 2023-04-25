@@ -11,6 +11,7 @@ import { useQuizzes } from '../hooks'
 import type { Question } from '../interfaces'
 import { Layout } from '../layouts'
 import { VideoCounter } from '../components'
+import { VIDEO_QUESTION_TIME_LIMIT } from '../constants'
 
 export const VideoQuestionPage: FC = () => {
   const location = useLocation()
@@ -19,7 +20,6 @@ export const VideoQuestionPage: FC = () => {
   const navigate = useNavigate()
 
   // WebRTC implementation
-  const VIDEO_QUESTION_TIME_LIMIT = 120
   const [isRecording, setIsRecording] = useState<boolean | null>(null)
   const gumVideoRef = useRef<HTMLVideoElement>(null)
   const recordedVideoRef = useRef<HTMLVideoElement>(null)

@@ -1,0 +1,1 @@
+export const VIDEO_QUESTION_TIME_LIMIT = 120
