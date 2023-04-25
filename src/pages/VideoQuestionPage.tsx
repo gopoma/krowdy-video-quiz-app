@@ -19,6 +19,7 @@ export const VideoQuestionPage: FC = () => {
   const navigate = useNavigate()
 
   // WebRTC implementation
+  const VIDEO_QUESTION_TIME_LIMIT = 120
   const [isRecording, setIsRecording] = useState<boolean | null>(null)
   const gumVideoRef = useRef<HTMLVideoElement>(null)
   const recordedVideoRef = useRef<HTMLVideoElement>(null)
@@ -31,7 +32,13 @@ export const VideoQuestionPage: FC = () => {
   const requestCounting = (): void => {
     setIsCounting((currentIsCounting) => {
       if (currentIsCounting) {
-        setCounter((counter) => counter + 1)
+        setCounter((counter) => {
+          if (counter === VIDEO_QUESTION_TIME_LIMIT) {
+            _handleStopRecording()
+          }
+
+          return counter + 1
+        })
       }
 
       return currentIsCounting
