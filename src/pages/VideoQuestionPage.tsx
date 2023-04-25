@@ -110,6 +110,12 @@ export const VideoQuestionPage: FC = () => {
   let recordedBlobs: Blob[]
 
   const _handleStartRecording = (): void => {
+    if (isRecording === false) {
+      const retry = window.confirm('Estás seguro que quieres volver a grabar tu respuesta?:')
+
+      if (!retry) return
+    }
+
     _handleToggleIsRecording()
 
     recordedBlobs = []
