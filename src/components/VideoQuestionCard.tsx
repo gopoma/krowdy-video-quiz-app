@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom'
 import { Box, IconButton, Typography } from '@mui/material'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import type { Question } from '../interfaces'
+import { useQuizzes } from '../hooks'
 
 interface Props {
   question: Question
 }
 
 export const VideoQuestionCard: FC<Props> = ({ question }) => {
+  const { activeAnswer } = useQuizzes()
   const navigate = useNavigate()
 
   const _handleClick = (): void => {
@@ -38,6 +40,19 @@ export const VideoQuestionCard: FC<Props> = ({ question }) => {
           backgroundColor: '#000'
         }}
       >
+        {
+          (activeAnswer.some((answer) => answer.question.id === question.id))
+            ? <video
+                src={ activeAnswer.find((answer) => answer.question.id === question.id)?.videoAnswerURL }
+                controls
+                playsInline
+                style={{
+                  width: '100%',
+                  height: '100%'
+                }}
+              ></video>
+            : <></>
+        }
         <IconButton
           onClick={ _handleClick }
           sx={{
