@@ -6,6 +6,12 @@ interface Props {
 }
 
 export const VideoCounter: FC<Props> = ({ counter }) => {
+  let s = counter
+  const minutes = Number.parseInt(String(s / 60))
+  s %= 60
+  const seconds = s
+  const secondsHasOneDigit = String(s).length === 1
+
   return (
     <Box
       component='section'
@@ -25,7 +31,7 @@ export const VideoCounter: FC<Props> = ({ counter }) => {
           color: 'text.primary'
         }}
       >
-        Counter: { counter }
+        { minutes }:{ (secondsHasOneDigit) ? '0' : '' }{ seconds } / 2:00
       </Typography>
     </Box>
   )
