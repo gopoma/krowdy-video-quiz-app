@@ -6,8 +6,9 @@ import { useEffect, useMemo } from 'react'
 // eslint-disable-next-line
 export const useQuizzes = () => {
   const dispatch = useAppDispatch()
-  const { activeQuiz } = useAppSelector((state) => state.quizzes)
+  const { activeQuiz, activeAnswer } = useAppSelector((state) => state.quizzes)
 
+  const completed = useMemo(() => activeAnswer.length === activeQuiz?.questions.length, [activeAnswer.length])
   const minPosition = useMemo(() => activeQuiz?.questions?.[0]?.order, [activeQuiz])
   const maxPosition = useMemo(() => activeQuiz?.questions?.[activeQuiz?.questions?.length - 1]?.order, [activeQuiz])
 
@@ -26,6 +27,8 @@ export const useQuizzes = () => {
   return {
     ...activeQuiz,
     activeQuiz,
+    activeAnswer,
+    completed,
     minPosition,
     maxPosition,
 

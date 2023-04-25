@@ -19,7 +19,10 @@ export const VideoQuizPage: FC = () => {
   const { id } = useParams()
   const [loading, setLoading] = useState<boolean>(true)
   const [quiz, setQuiz] = useState<Quiz | null>(null)
-  const { setActiveQuiz } = useQuizzes()
+  const {
+    setActiveQuiz,
+    completed
+  } = useQuizzes()
 
   useEffect(() => {
     quizzesServ.getById(Number.parseInt(id as string))
@@ -101,7 +104,7 @@ export const VideoQuizPage: FC = () => {
           justifyContent: 'flex-end'
         }}
       >
-        <VideoQuizSubmitButton disabled={ quiz.questions.length === 0 } />
+        <VideoQuizSubmitButton disabled={ quiz.questions.length === 0 || !completed } />
       </Box>
     </Layout>
   )
