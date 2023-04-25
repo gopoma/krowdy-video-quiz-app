@@ -1,4 +1,3 @@
-import React from 'react'
 import ReactDOM from 'react-dom/client'
 import VideoQuizApp from './VideoQuizApp.tsx'
 
@@ -10,7 +9,5 @@ import '@fontsource/roboto/700.css'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <VideoQuizApp />
-  </React.StrictMode>
+  <VideoQuizApp />
 )

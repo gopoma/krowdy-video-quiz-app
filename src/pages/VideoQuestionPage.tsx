@@ -24,6 +24,7 @@ export const VideoQuestionPage: FC = () => {
   const recordedVideoRef = useRef<HTMLVideoElement>(null)
   const mediaRecorder = useRef<MediaRecorder | null>(null)
 
+  // eslint-disable-next-line
   const [isCounting, setIsCounting] = useState<boolean>(false)
   const [counter, setCounter] = useState<number>(0)
 
@@ -157,8 +158,6 @@ export const VideoQuestionPage: FC = () => {
   if (question === null) {
     return <Navigate to={ `/quizzes/${idQuiz as number}` } />
   }
-
-  console.log(isCounting)
 
   return (
     <Layout style={{ maxWidth: '800px' }}>
