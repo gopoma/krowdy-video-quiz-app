@@ -1,10 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
-import type { Quiz } from '../../interfaces'
-
-interface QuestionAnswer {
-  idQuestion: number
-  answer: string
-}
+import type { QuestionAnswer, Quiz } from '../../interfaces'
 
 interface QuizzesState {
   activeQuiz: Quiz | null
@@ -26,6 +21,13 @@ export const quizzesSlice = createSlice({
       if (state.activeQuiz?.id !== payload.id) {
         state.activeAnswer = []
       }
+    },
+    onAddAnswer: (state, { payload }: PayloadAction<QuestionAnswer>) => {
+      if (state.activeAnswer.some((answer) => answer.question.id === payload.question.id)) {
+        state.activeAnswer = state.activeAnswer.filter((answer) => answer.question.id !== payload.question.id)
+      }
+
+      state.activeAnswer.push(payload)
     }
   }
 })
@@ -33,5 +35,6 @@ export const quizzesSlice = createSlice({
 export default quizzesSlice.reducer
 
 export const {
-  onSetActiveQuiz
+  onSetActiveQuiz,
+  onAddAnswer
 } = quizzesSlice.actions

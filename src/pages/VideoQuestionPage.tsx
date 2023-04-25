@@ -8,16 +8,26 @@ import StopIcon from '@mui/icons-material/Stop'
 import ReplayIcon from '@mui/icons-material/Replay'
 
 import { useQuizzes } from '../hooks'
-import type { Question } from '../interfaces'
+import type { Question, QuestionAnswer } from '../interfaces'
 import { Layout } from '../layouts'
 import { VideoCounter } from '../components'
 import { VIDEO_QUESTION_TIME_LIMIT } from '../constants'
 
 export const VideoQuestionPage: FC = () => {
+  const navigate = useNavigate()
+  const {
+    id: idQuiz,
+    questions,
+    addAnswer,
+    minPosition,
+    maxPosition
+  } = useQuizzes()
+
   const location = useLocation()
   const { order = '' } = queryString.parse(location.search)
-  const { id: idQuiz, questions, minPosition, maxPosition } = useQuizzes()
-  const navigate = useNavigate()
+
+  const initialQuestion = (questions as Question[]).find((question) => question.order === Number.parseInt(order as string)) ?? null
+  const [question, setQuestion] = useState<Question | null>(initialQuestion)
 
   // WebRTC implementation
   const [isRecording, setIsRecording] = useState<boolean | null>(null)
@@ -27,6 +37,11 @@ export const VideoQuestionPage: FC = () => {
 
   const [isCounting, setIsCounting] = useState<boolean>(false)
   const [counter, setCounter] = useState<number>(0)
+
+  useEffect(() => {
+    setQuestion(() => (questions as Question[]).find((question) => question.order === Number.parseInt(order as string)) ?? null)
+    setIsRecording(null)
+  }, [order])
 
   const requestCounting = (): void => {
     setIsCounting((currentIsCounting) => {
@@ -137,7 +152,15 @@ export const VideoQuestionPage: FC = () => {
       if (recordedVideoRef.current === null) return
 
       recordedVideoRef.current.srcObject = null
-      recordedVideoRef.current.src = window.URL.createObjectURL(superBuffer)
+
+      const videoAnswerURL = window.URL.createObjectURL(superBuffer)
+      const answer: QuestionAnswer = {
+        question: question as Question,
+        videoAnswerURL
+      }
+      addAnswer(answer)
+
+      recordedVideoRef.current.src = videoAnswerURL
       recordedVideoRef.current.controls = true
     }
     mediaRecorder.current.ondataavailable = handleDataAvailable
@@ -166,13 +189,6 @@ export const VideoQuestionPage: FC = () => {
   const onNavigateBack = (): void => {
     navigate(`/quizzes/${idQuiz as number}`)
   }
-
-  const initialQuestion = (questions as Question[]).find((question) => question.order === Number.parseInt(order as string)) ?? null
-  const [question, setQuestion] = useState<Question | null>(initialQuestion)
-
-  useEffect(() => {
-    setQuestion(() => (questions as Question[]).find((question) => question.order === Number.parseInt(order as string)) ?? null)
-  }, [location.search])
 
   if (question === null) {
     return <Navigate to={ `/quizzes/${idQuiz as number}` } />

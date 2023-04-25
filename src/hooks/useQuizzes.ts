@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from './useStore'
-import type { Quiz } from '../interfaces'
-import { onSetActiveQuiz } from '../store'
+import type { QuestionAnswer, Quiz } from '../interfaces'
+import { onSetActiveQuiz, onAddAnswer } from '../store'
 import { useEffect, useMemo } from 'react'
 
 // eslint-disable-next-line
@@ -19,12 +19,17 @@ export const useQuizzes = () => {
     dispatch(onSetActiveQuiz(quiz))
   }
 
+  const addAnswer = (answer: QuestionAnswer): void => {
+    dispatch(onAddAnswer(answer))
+  }
+
   return {
     ...activeQuiz,
     activeQuiz,
     minPosition,
     maxPosition,
 
-    setActiveQuiz
+    setActiveQuiz,
+    addAnswer
   }
 }
