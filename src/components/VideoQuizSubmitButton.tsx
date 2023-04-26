@@ -1,15 +1,17 @@
-import { type FC } from 'react'
+import { type CSSProperties, type FC } from 'react'
 import { Button } from '@mui/material'
 import { red, grey } from '@mui/material/colors'
 
 interface Props {
-  disabled: boolean
+  disabled?: boolean
+  style?: CSSProperties
 }
 
-export const VideoQuizSubmitButton: FC<Props> = ({ disabled }) => {
+export const VideoQuizSubmitButton: FC<Props> = ({ disabled = false, style }) => {
   return (
     <Button
       disabled={ disabled }
+      style={ style }
       sx={{
         px: '0.75rem',
         py: '0.45rem',

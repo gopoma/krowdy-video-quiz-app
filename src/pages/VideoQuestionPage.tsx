@@ -10,7 +10,7 @@ import ReplayIcon from '@mui/icons-material/Replay'
 import { useQuizzes } from '../hooks'
 import type { Question, QuestionAnswer } from '../interfaces'
 import { Layout } from '../layouts'
-import { VideoCounter } from '../components'
+import { VideoCounter, VideoQuizSubmitButton } from '../components'
 import { VIDEO_QUESTION_TIME_LIMIT } from '../constants'
 
 export const VideoQuestionPage: FC = () => {
@@ -19,9 +19,11 @@ export const VideoQuestionPage: FC = () => {
     id: idQuiz,
     questions,
     activeAnswer,
-    addAnswer,
+    completed,
+
     minPosition,
-    maxPosition
+    maxPosition,
+    addAnswer
   } = useQuizzes()
 
   const location = useLocation()
@@ -355,6 +357,7 @@ export const VideoQuestionPage: FC = () => {
       >
         { (minPosition !== question.order) ? <Button onClick={ _handleGoBack } variant='contained'>Atrás</Button> : <></> }
         { (maxPosition !== question.order) ? <Button onClick={ _handleGoNext } variant='contained'>Siguiente</Button> : <></> }
+        { (maxPosition === question.order && completed) ? <VideoQuizSubmitButton style={{ marginLeft: 'auto' }} /> : <></> }
       </Box>
     </Layout>
   )
