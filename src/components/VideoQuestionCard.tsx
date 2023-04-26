@@ -48,7 +48,7 @@ export const VideoQuestionCard: FC<Props> = ({ question }) => {
                 playsInline
                 style={{
                   width: '100%',
-                  height: '100%'
+                  minHeight: '22rem'
                 }}
               ></video>
             : <></>
@@ -57,7 +57,7 @@ export const VideoQuestionCard: FC<Props> = ({ question }) => {
           onClick={ _handleClick }
           sx={{
             position: 'absolute',
-            bottom: '0.85rem',
+            top: '0.85rem',
             left: '0.85rem',
             bgcolor: 'secondary.main',
             ':hover': {
