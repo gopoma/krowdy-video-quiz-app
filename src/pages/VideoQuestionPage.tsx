@@ -18,6 +18,7 @@ export const VideoQuestionPage: FC = () => {
   const {
     id: idQuiz,
     questions,
+    activeAnswer,
     addAnswer,
     minPosition,
     maxPosition
@@ -40,8 +41,19 @@ export const VideoQuestionPage: FC = () => {
 
   useEffect(() => {
     setQuestion(() => (questions as Question[]).find((question) => question.order === Number.parseInt(order as string)) ?? null)
-    setIsRecording(null)
   }, [order])
+
+  useEffect(() => {
+    if (question === null) return
+
+    setIsRecording(() => {
+      if (activeAnswer.some((answer) => answer.question.id === question.id)) {
+        return false
+      }
+
+      return null
+    })
+  }, [question])
 
   const requestCounting = (): void => {
     setIsCounting((currentIsCounting) => {
@@ -256,6 +268,8 @@ export const VideoQuestionPage: FC = () => {
 
           <video
             ref={ recordedVideoRef }
+            src={ activeAnswer.find((answer) => answer.question.id === question.id)?.videoAnswerURL ?? '' }
+            controls
             playsInline
             style={{
               display: (isRecording === null)
